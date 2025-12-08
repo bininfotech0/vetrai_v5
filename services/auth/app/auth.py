@@ -41,7 +41,7 @@ def create_refresh_token() -> str:
 
 
 def hash_refresh_token(token: str) -> str:
-    return hashlib.sha256(token.encode("utf-8")).hexdigest()
+    return _hash_token(token)
 
 
 def store_refresh_token(session: Session, user_id: str, token: str, expires_at: Optional[datetime] = None):
@@ -75,10 +75,13 @@ def verify_refresh_token(session: Session, user_id: str, token: str) -> bool:
     return True
 
 
-# ---------- Access token helpers (new, opaque tokens stored in DB) ----------
+# ---------- Shared token helpers ----------
 def _hash_token(token: str) -> str:
     # Central hashing for both access and refresh tokens
     return hashlib.sha256(token.encode("utf-8")).hexdigest()
+
+
+# ---------- Access token helpers (new, opaque tokens stored in DB) ----------
 
 
 def create_access_token(session: Session, user_id: str, expires_delta: Optional[int] = None) -> str:

@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel, EmailStr
 from sqlmodel import Session, select, SQLModel
 
@@ -105,8 +106,6 @@ def refresh(payload: RefreshIn):
         store_refresh_token(session, payload.user_id, refresh, expires_at=expires_at)
         return TokenOut(access_token=access, refresh_token=refresh)
 
-
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 security = HTTPBearer()
 
