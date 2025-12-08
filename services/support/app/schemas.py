@@ -52,7 +52,7 @@ class CommentResponse(BaseModel):
     ticket_id: int
     user_id: int
     comment: str
-    is_internal: int
+    is_internal: bool
     created_at: datetime
     
     class Config:

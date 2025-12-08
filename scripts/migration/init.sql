@@ -232,7 +232,7 @@ CREATE TABLE IF NOT EXISTS support_ticket_comments (
     ticket_id INTEGER NOT NULL REFERENCES support_tickets(id) ON DELETE CASCADE,
     user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     comment TEXT NOT NULL,
-    is_internal INTEGER NOT NULL DEFAULT 0,
+    is_internal BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
@@ -396,7 +396,7 @@ CREATE TABLE IF NOT EXISTS workflow_templates (
     name VARCHAR(100) NOT NULL,
     description TEXT,
     workflow_definition JSONB NOT NULL,
-    is_active INTEGER NOT NULL DEFAULT 1,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );

@@ -53,7 +53,7 @@ class WorkflowTemplateResponse(BaseModel):
     name: str
     description: Optional[str]
     workflow_definition: Dict[str, Any]
-    is_active: int
+    is_active: bool
     created_at: datetime
     
     class Config:

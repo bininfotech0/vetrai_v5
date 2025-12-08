@@ -229,7 +229,7 @@ async def update_template(
     if template_update.workflow_definition is not None:
         template.workflow_definition = template_update.workflow_definition
     if template_update.is_active is not None:
-        template.is_active = 1 if template_update.is_active else 0
+        template.is_active = template_update.is_active
     
     db.commit()
     db.refresh(template)

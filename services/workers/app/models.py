@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
-from sqlalchemy import Column, Integer, String, Text, Enum as SQLEnum, JSON, DateTime
+from sqlalchemy import Column, Integer, String, Text, Boolean, Enum as SQLEnum, JSON, DateTime
 from shared.models import BaseModel
 import enum
 
@@ -55,7 +55,7 @@ class WorkflowTemplate(BaseModel):
     
     workflow_definition = Column(JSON, nullable=False)
     
-    is_active = Column(Integer, nullable=False, default=1)
+    is_active = Column(Boolean, nullable=False, default=True)
     
     def __repr__(self):
         return f"<WorkflowTemplate(id={self.id}, name='{self.name}')>"

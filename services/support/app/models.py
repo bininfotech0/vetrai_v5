@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
-from sqlalchemy import Column, Integer, String, Text, Enum as SQLEnum
+from sqlalchemy import Column, Integer, String, Text, Boolean, Enum as SQLEnum
 from shared.models import BaseModel
 import enum
 
@@ -56,7 +56,7 @@ class TicketComment(BaseModel):
     ticket_id = Column(Integer, nullable=False, index=True)
     user_id = Column(Integer, nullable=False, index=True)
     comment = Column(Text, nullable=False)
-    is_internal = Column(Integer, nullable=False, default=0)
+    is_internal = Column(Boolean, nullable=False, default=False)
     
     def __repr__(self):
         return f"<TicketComment(id={self.id}, ticket_id={self.ticket_id})>"

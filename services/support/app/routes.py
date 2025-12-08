@@ -166,7 +166,7 @@ async def add_comment(
         ticket_id=ticket_id,
         user_id=current_user.user_id,
         comment=comment_data.comment,
-        is_internal=1 if comment_data.is_internal else 0
+        is_internal=comment_data.is_internal
     )
     
     db.add(comment)
