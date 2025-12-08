@@ -2,8 +2,9 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-00C7B7.svg)](https://fastapi.tiangolo.com/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.109.1-00C7B7.svg)](https://fastapi.tiangolo.com/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg)](https://www.docker.com/)
+[![Security](https://img.shields.io/badge/security-patched-green.svg)](https://github.com/bininfotech0/vetrai_v5/security)
 
 VetrAI is a commercial-grade AI workflow platform built on top of LangFlow, featuring enterprise capabilities including multi-tenancy, advanced authentication, billing integration, and comprehensive API management.
 
@@ -248,6 +249,7 @@ pytest --cov=services --cov-report=html
 
 ## 🔒 Security
 
+- **All Security Patches Applied**: Dependencies updated to latest secure versions
 - TLS/SSL enforced in production
 - Secrets managed via environment variables and Kubernetes secrets
 - RBAC enforcement across all services
@@ -255,6 +257,8 @@ pytest --cov=services --cov-report=html
 - Audit logging for sensitive operations
 - GDPR compliance features
 - Data encryption at rest and in transit
+
+**Security Policy**: See [SECURITY.md](SECURITY.md) for vulnerability reporting and security updates.
 
 ## 📖 Documentation
 

@@ -67,6 +67,11 @@ jobs:
         run: |
           bandit -r services/ -f json -o bandit-report.json || true
           bandit -r services/ || true
+      
+      - name: Check for known vulnerabilities
+        run: |
+          pip install safety
+          safety check --json || true
 
       - name: Upload security report
         uses: actions/upload-artifact@v3

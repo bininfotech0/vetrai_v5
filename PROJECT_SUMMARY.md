@@ -112,13 +112,14 @@ VetrAI is a comprehensive, production-ready commercial platform built as a LangF
 ## Technology Stack
 
 ### Backend
-- **Framework**: FastAPI 0.104.1
+- **Framework**: FastAPI 0.109.1 (security patched)
 - **Language**: Python 3.11+
 - **Database ORM**: SQLAlchemy 2.0.23
 - **Database**: PostgreSQL 15 with pgvector
 - **Cache**: Redis 7
 - **Task Queue**: Celery (planned)
 - **API Security**: JWT, OAuth2, RBAC
+- **Dependencies**: All security vulnerabilities patched (Dec 2024)
 
 ### Frontend (Planned)
 - **Framework**: React 18+ with TypeScript
