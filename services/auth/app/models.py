@@ -61,6 +61,19 @@ class RefreshToken(BaseModel):
         return f"<RefreshToken(id={self.id}, user_id={self.user_id})>"
 
 
+class AccessToken(BaseModel):
+    """Access token model for opaque token management"""
+    
+    __tablename__ = "access_tokens"
+    
+    user_id = Column(Integer, nullable=False, index=True)
+    token_hash = Column(String(255), nullable=False, unique=True, index=True)
+    expires_at = Column(DateTime, nullable=True)
+    
+    def __repr__(self):
+        return f"<AccessToken(id={self.id}, user_id={self.user_id})>"
+
+
 class AuditLog(BaseModel):
     """Audit log for tracking user activities"""
     
