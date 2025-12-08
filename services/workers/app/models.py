@@ -1,20 +1,21 @@
 """
 Database models for Workers Service
 """
+
 import sys
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
-from sqlalchemy import Column, Integer, String, DateTime, Text, JSON
 from shared.models import BaseModel
+from sqlalchemy import JSON, Column, DateTime, Integer, String, Text
 
 
 class WorkerJob(BaseModel):
     """Worker job model"""
-    
+
     __tablename__ = "worker_jobs"
-    
+
     organization_id = Column(Integer, nullable=False, index=True)
     user_id = Column(Integer, nullable=False, index=True)
     job_type = Column(String(100), nullable=False)
@@ -26,6 +27,6 @@ class WorkerJob(BaseModel):
     completed_at = Column(DateTime, nullable=True)
     retries = Column(Integer, default=0)
     max_retries = Column(Integer, default=3)
-    
+
     def __repr__(self):
         return f"<WorkerJob(id={self.id}, job_type='{self.job_type}', status='{self.status}')>"

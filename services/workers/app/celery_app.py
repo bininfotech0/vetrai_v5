@@ -1,6 +1,7 @@
 """
 Celery application configuration
 """
+
 import sys
 from pathlib import Path
 
@@ -15,7 +16,7 @@ settings = get_settings()
 celery_app = Celery(
     "vetrai_workers",
     broker=settings.celery_broker_url,
-    backend=settings.celery_result_backend
+    backend=settings.celery_result_backend,
 )
 
 # Configure Celery
@@ -37,5 +38,6 @@ def execute_workflow(job_id: int, workflow_type: str, input_data: dict):
     """Execute workflow task"""
     # Placeholder for workflow execution
     import time
+
     time.sleep(2)  # Simulate work
     return {"status": "completed", "result": "Workflow executed successfully"}

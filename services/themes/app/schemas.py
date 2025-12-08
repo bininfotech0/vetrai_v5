@@ -1,13 +1,16 @@
 """
 Pydantic schemas for Themes Service
 """
+
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, Field
+
+from pydantic import BaseModel
 
 
 class ThemeUpdate(BaseModel):
     """Schema for updating theme"""
+
     name: Optional[str] = None
     primary_color: Optional[str] = None
     secondary_color: Optional[str] = None
@@ -18,6 +21,7 @@ class ThemeUpdate(BaseModel):
 
 class ThemeResponse(BaseModel):
     """Schema for theme response"""
+
     id: int
     organization_id: int
     name: str
@@ -30,11 +34,12 @@ class ThemeResponse(BaseModel):
     custom_js: Optional[str]
     is_active: bool
     created_at: datetime
-    
+
     class Config:
         from_attributes = True
 
 
 class MessageResponse(BaseModel):
     """Generic message response"""
+
     message: str

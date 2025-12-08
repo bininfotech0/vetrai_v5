@@ -1,13 +1,16 @@
 """
 Pydantic schemas for Workers Service
 """
+
 from datetime import datetime
-from typing import Optional, Dict, Any
+from typing import Any, Dict, Optional
+
 from pydantic import BaseModel, Field
 
 
 class WorkflowExecuteRequest(BaseModel):
     """Schema for workflow execution request"""
+
     workflow_type: str = Field(..., description="Type of workflow to execute")
     input_data: Dict[str, Any] = Field(..., description="Input data for workflow")
     priority: Optional[int] = Field(default=1, ge=1, le=10)
@@ -15,6 +18,7 @@ class WorkflowExecuteRequest(BaseModel):
 
 class WorkflowExecuteResponse(BaseModel):
     """Schema for workflow execution response"""
+
     job_id: int
     status: str
     message: str
@@ -22,6 +26,7 @@ class WorkflowExecuteResponse(BaseModel):
 
 class JobStatusResponse(BaseModel):
     """Schema for job status response"""
+
     id: int
     organization_id: int
     user_id: int
@@ -34,13 +39,14 @@ class JobStatusResponse(BaseModel):
     completed_at: Optional[datetime]
     retries: int
     created_at: datetime
-    
+
     class Config:
         from_attributes = True
 
 
 class MetricsResponse(BaseModel):
     """Schema for performance metrics"""
+
     total_jobs: int
     pending_jobs: int
     running_jobs: int
@@ -51,4 +57,5 @@ class MetricsResponse(BaseModel):
 
 class MessageResponse(BaseModel):
     """Generic message response"""
+
     message: str
