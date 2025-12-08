@@ -127,7 +127,6 @@ services:
         condition: service_healthy
     volumes:
       - ./services/keys:/app
-      - ./services/shared:/app/shared:ro
     networks:
       - vetrai-network
     restart: unless-stopped
@@ -150,7 +149,6 @@ services:
         condition: service_healthy
     volumes:
       - ./services/billing:/app
-      - ./services/shared:/app/shared:ro
     networks:
       - vetrai-network
     restart: unless-stopped
@@ -175,7 +173,6 @@ services:
         condition: service_healthy
     volumes:
       - ./services/support:/app
-      - ./services/shared:/app/shared:ro
     networks:
       - vetrai-network
     restart: unless-stopped
@@ -200,7 +197,6 @@ services:
         condition: service_healthy
     volumes:
       - ./services/themes:/app
-      - ./services/shared:/app/shared:ro
     networks:
       - vetrai-network
     restart: unless-stopped
@@ -224,7 +220,6 @@ services:
         condition: service_healthy
     volumes:
       - ./services/notifications:/app
-      - ./services/shared:/app/shared:ro
     networks:
       - vetrai-network
     restart: unless-stopped
@@ -247,7 +242,6 @@ services:
         condition: service_healthy
     volumes:
       - ./services/workers:/app
-      - ./services/shared:/app/shared:ro
     networks:
       - vetrai-network
     restart: unless-stopped
@@ -272,7 +266,6 @@ services:
         condition: service_healthy
     volumes:
       - ./services/workers:/app
-      - ./services/shared:/app/shared:ro
     networks:
       - vetrai-network
     restart: unless-stopped
