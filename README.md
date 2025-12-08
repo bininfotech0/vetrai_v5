@@ -8,6 +8,8 @@
 
 VetrAI is a commercial-grade AI workflow platform built on top of LangFlow, featuring enterprise capabilities including multi-tenancy, advanced authentication, billing integration, and comprehensive API management.
 
+> **✅ Platform Complete**: All 8 microservices are now implemented and fully integrated. See [SERVICES.md](docs/SERVICES.md) for detailed service documentation.
+
 ## 🚀 Features
 
 ### Core Platform
@@ -135,29 +137,47 @@ VetrAI follows a microservices architecture with the following components:
 
 ## 🔧 Services
 
-### Authentication Service
-JWT-based authentication with refresh tokens, password reset, email verification, and RBAC with roles: `super_admin`, `org_admin`, `user`, `support_agent`, `billing_admin`.
+All 8 microservices are fully implemented and documented. See [SERVICES.md](docs/SERVICES.md) for complete API documentation.
 
-### Tenancy Service
-Multi-tenant architecture with organization management, plan assignment, and tenant isolation.
+### 1. Authentication Service (Port 8001)
+JWT + opaque token authentication with refresh tokens, password reset, email verification, and RBAC with 5 roles: `super_admin`, `org_admin`, `user`, `support_agent`, `billing_admin`.
 
-### API Key Management
-Secure API key generation, scoped permissions, rate limiting, and usage tracking.
+**Key Endpoints**: `/api/v1/register`, `/api/v1/login`, `/api/v1/refresh`, `/api/v1/me`, `/api/v1/users`
 
-### Billing Service
-Stripe integration for payments, subscription management, webhook handling, and invoice generation.
+### 2. Tenancy Service (Port 8002)
+Multi-tenant architecture with organization management, plan assignment, and complete tenant data isolation.
 
-### Support Service
-Complete ticketing system with file attachments, SLA management, and email notifications.
+**Key Endpoints**: `/api/v1/organizations` (CRUD operations)
 
-### Themes Service
-Dynamic theme management, logo customization, and public page content management.
+### 3. API Keys Service (Port 8003)
+Secure API key generation with scoped permissions, rate limiting configuration, and comprehensive usage tracking.
 
-### Notifications Service
-Multi-channel notifications with template management and delivery queues.
+**Key Endpoints**: `/api/v1/keys`, `/api/v1/keys/{id}/usage`
 
-### Workers Service
-LangGraph integration for workflow execution with job queues and monitoring.
+### 4. Billing Service (Port 8004)
+Full Stripe integration for payments, subscription management, webhook handling, invoice generation, and usage-based billing.
+
+**Key Endpoints**: `/api/v1/billing/subscriptions`, `/api/v1/billing/invoices`, `/api/v1/billing/webhooks/stripe`
+
+### 5. Support Service (Port 8005)
+Complete ticketing system with file attachments (MinIO), comment threads, ticket assignment, and priority management.
+
+**Key Endpoints**: `/api/v1/support/tickets`, `/api/v1/support/tickets/{id}/comments`, `/api/v1/support/tickets/{id}/attachments`
+
+### 6. Themes Service (Port 8006)
+Dynamic theme management with custom colors, logo/favicon uploads, custom CSS injection, and public page content management.
+
+**Key Endpoints**: `/api/v1/themes`, `/api/v1/themes/pages`
+
+### 7. Notifications Service (Port 8007)
+Multi-channel notifications (Email, SMS, In-app, Push) with reusable templates and Redis-based delivery queues.
+
+**Key Endpoints**: `/api/v1/notifications`, `/api/v1/notifications/templates`
+
+### 8. Workers Service (Port 8008)
+LangGraph workflow execution with Celery job queues, workflow templates, job status tracking, and retry logic.
+
+**Key Endpoints**: `/api/v1/workers/jobs`, `/api/v1/workers/templates`
 
 ## 💻 Development Setup
 
