@@ -1,0 +1,3 @@
+"""
+Workers Service - VetrAI Platform
+"""
