@@ -3,24 +3,24 @@
     "repository": "VetrAI Platform",
     "analysis_date": "2025-12-10",
     "total_services": 8,
-    "total_python_files": 83,
-    "total_code_lines": 10114,
+    "total_python_files": 84,
+    "total_code_lines": 10215,
     "documentation_files": 21,
-    "health_score": 95
+    "health_score": 94
   },
   "code_metrics": {
-    "total_files": 203,
-    "python_files": 83,
+    "total_files": 205,
+    "python_files": 84,
     "javascript_files": 35,
     "markdown_files": 20,
     "yaml_files": 10,
     "dockerfile_count": 12,
     "total_lines": 0,
-    "python_lines": 12959,
-    "blank_lines": 2340,
-    "comment_lines": 505,
-    "directories": 58,
-    "code_lines": 10114
+    "python_lines": 13098,
+    "blank_lines": 2366,
+    "comment_lines": 517,
+    "directories": 59,
+    "code_lines": 10215
   },
   "services": {
     "billing": {
@@ -490,8 +490,8 @@
   },
   "quality": {
     "python_files_with_docstrings": 50,
-    "python_files_without_docstrings": 33,
-    "files_with_type_hints": 62,
+    "python_files_without_docstrings": 34,
+    "files_with_type_hints": 63,
     "test_files": 5,
     "avg_function_length": 13,
     "long_files": [
