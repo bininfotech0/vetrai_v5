@@ -32,13 +32,13 @@ export function Header() {
   };
 
   return (
-    <header className="bg-card border-b border-border px-6 py-4">
+    <header className="bg-card border-b border-border px-4 md:px-6 py-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <h1 className="text-2xl font-semibold text-foreground">Studio</h1>
+          <h1 className="text-xl md:text-2xl font-semibold text-foreground ml-12 md:ml-0">Studio</h1>
         </div>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2 md:space-x-4">
           {/* Theme Toggle */}
           <ThemeToggle />
 
