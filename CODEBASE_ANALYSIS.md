@@ -6,19 +6,19 @@
 ## 📊 Summary
 - **Total Services:** 8
 - **Python Files:** 83
-- **Lines of Code:** 10,103
-- **Documentation Files:** 19
+- **Lines of Code:** 10,114
+- **Documentation Files:** 21
 
 ## 📈 Code Metrics
-- Total Files: 200
+- Total Files: 203
 - Python Files: 83
 - JavaScript/TypeScript Files: 35
-- Markdown Files: 18
+- Markdown Files: 20
 - YAML Files: 10
 - Dockerfiles: 12
-- Python Code Lines: 10,103
-- Comment Lines: 501
-- Blank Lines: 2,339
+- Python Code Lines: 10,114
+- Comment Lines: 505
+- Blank Lines: 2,340
 
 ## 🏗️ Service Architecture
 Found **8** microservices:
@@ -119,6 +119,7 @@ Found **8** microservices:
 **Most Common Packages:**
 
 - `fastapi` (used in 9 services)
+- `uvicorn[standard]` (used in 9 services)
 - `pydantic` (used in 9 services)
 - `pydantic-settings` (used in 9 services)
 - `sqlalchemy` (used in 9 services)
@@ -128,15 +129,14 @@ Found **8** microservices:
 - `prometheus-client` (used in 9 services)
 - `httpx` (used in 8 services)
 - `python-multipart` (used in 4 services)
+- `python-jose[cryptography]` (used in 3 services)
 - `fastapi-mail` (used in 2 services)
 - `minio` (used in 2 services)
 - `alembic` (used in 2 services)
-- `stripe` (used in 1 services)
-- `celery` (used in 1 services)
 
 ## 📚 Documentation
-- Total Markdown Files: 19
-- Total Documentation Lines: 5,921
+- Total Markdown Files: 21
+- Total Documentation Lines: 6,397
 - README.md: ✓ Found
 - CONTRIBUTING.md: ✓ Found
 - API Documentation: ✓ Found
@@ -163,7 +163,7 @@ Found **8** microservices:
 **Long Files (>500 lines):**
 - `scripts/testing/e2e_testing.py` (891 lines)
 - `next_level_enhancements.py` (800 lines)
-- `analyze_codebase.py` (777 lines)
+- `analyze_codebase.py` (793 lines)
 
 ## 💡 Recommendations
 - Add tests to services: billing, tenancy, notifications, themes, keys, support, auth, workers

@@ -4,23 +4,23 @@
     "analysis_date": "2025-12-10",
     "total_services": 8,
     "total_python_files": 83,
-    "total_code_lines": 10103,
-    "documentation_files": 19,
+    "total_code_lines": 10114,
+    "documentation_files": 21,
     "health_score": 95
   },
   "code_metrics": {
-    "total_files": 200,
+    "total_files": 203,
     "python_files": 83,
     "javascript_files": 35,
-    "markdown_files": 18,
+    "markdown_files": 20,
     "yaml_files": 10,
     "dockerfile_count": 12,
     "total_lines": 0,
-    "python_lines": 12943,
-    "blank_lines": 2339,
-    "comment_lines": 501,
+    "python_lines": 12959,
+    "blank_lines": 2340,
+    "comment_lines": 505,
     "directories": 58,
-    "code_lines": 10103
+    "code_lines": 10114
   },
   "services": {
     "billing": {
@@ -255,6 +255,7 @@
     "services": {
       "billing": {
         "fastapi": "==0.109.1",
+        "uvicorn[standard]": "==0.24.0",
         "pydantic": "==2.5.0",
         "pydantic-settings": "==2.1.0",
         "sqlalchemy": "==2.0.23",
@@ -267,6 +268,7 @@
       },
       "tenancy": {
         "fastapi": "==0.109.1",
+        "uvicorn[standard]": "==0.24.0",
         "pydantic": "==2.5.0",
         "pydantic-settings": "==2.1.0",
         "sqlalchemy": "==2.0.23",
@@ -277,6 +279,7 @@
       },
       "notifications": {
         "fastapi": "==0.109.1",
+        "uvicorn[standard]": "==0.24.0",
         "pydantic": "==2.5.0",
         "pydantic-settings": "==2.1.0",
         "sqlalchemy": "==2.0.23",
@@ -289,6 +292,7 @@
       },
       "themes": {
         "fastapi": "==0.109.1",
+        "uvicorn[standard]": "==0.24.0",
         "pydantic": "==2.5.0",
         "pydantic-settings": "==2.1.0",
         "python-multipart": "==0.0.18",
@@ -302,10 +306,12 @@
       },
       "keys": {
         "fastapi": "==0.109.1",
+        "uvicorn[standard]": "==0.24.0",
         "pydantic": "==2.5.0",
         "pydantic-settings": "==2.1.0",
         "sqlalchemy": "==2.0.23",
         "psycopg2-binary": "==2.9.9",
+        "python-jose[cryptography]": "==3.3.0",
         "redis": "==5.0.1",
         "httpx": "==0.25.2",
         "python-dotenv": "==1.0.0",
@@ -313,6 +319,7 @@
       },
       "support": {
         "fastapi": "==0.109.1",
+        "uvicorn[standard]": "==0.24.0",
         "pydantic": "==2.5.0",
         "pydantic-settings": "==2.1.0",
         "python-multipart": "==0.0.18",
@@ -326,12 +333,15 @@
       },
       "auth": {
         "fastapi": "==0.109.1",
+        "uvicorn[standard]": "==0.24.0",
         "pydantic": "==2.5.0",
         "pydantic-settings": "==2.1.0",
         "python-multipart": "==0.0.18",
         "sqlalchemy": "==2.0.23",
         "psycopg2-binary": "==2.9.9",
         "alembic": "==1.12.1",
+        "python-jose[cryptography]": "==3.3.0",
+        "passlib[bcrypt]": "==1.7.4",
         "fastapi-mail": "==1.4.1",
         "httpx": "==0.25.2",
         "redis": "==5.0.1",
@@ -340,6 +350,7 @@
       },
       "workers": {
         "fastapi": "==0.109.1",
+        "uvicorn[standard]": "==0.24.0",
         "pydantic": "==2.5.0",
         "pydantic-settings": "==2.1.0",
         "sqlalchemy": "==2.0.23",
@@ -367,11 +378,14 @@
       },
       "shared": {
         "fastapi": "==0.109.1",
+        "uvicorn[standard]": "==0.24.0",
         "pydantic": "==2.5.0",
         "pydantic-settings": "==2.1.0",
         "sqlalchemy": "==2.0.23",
         "psycopg2-binary": "==2.9.9",
         "alembic": "==1.12.1",
+        "python-jose[cryptography]": "==3.3.0",
+        "passlib[bcrypt]": "==1.7.4",
         "python-multipart": "==0.0.18",
         "redis": "==5.0.1",
         "hiredis": "==2.2.3",
@@ -388,6 +402,7 @@
     },
     "common_packages": {
       "fastapi": 9,
+      "uvicorn[standard]": 9,
       "pydantic": 9,
       "pydantic-settings": 9,
       "sqlalchemy": 9,
@@ -400,7 +415,9 @@
       "fastapi-mail": 2,
       "python-multipart": 4,
       "minio": 2,
+      "python-jose[cryptography]": 3,
       "alembic": 2,
+      "passlib[bcrypt]": 2,
       "celery": 1,
       "langflow": 1,
       "langchain": 1,
@@ -437,7 +454,7 @@
     "security_patterns": {
       "jwt_usage": true,
       "password_hashing": true,
-      "sql_parameterization": false
+      "sql_parameterization": true
     }
   },
   "documentation": {
@@ -448,7 +465,9 @@
       "IMPLEMENTATION_SUMMARY.md",
       "PROJECT_SUMMARY.md",
       "README.md",
+      "CODEBASE_ANALYSIS.md",
       "MISSION_ACCOMPLISHED.md",
+      "CODE_ANALYSIS_README.md",
       "AI_INTEGRATIONS.md",
       "SECURITY.md",
       ".github/agents/my-agent.agent.md",
@@ -467,7 +486,7 @@
     "api_docs": true,
     "architecture_docs": true,
     "deployment_docs": true,
-    "total_doc_lines": 5921
+    "total_doc_lines": 6397
   },
   "quality": {
     "python_files_with_docstrings": 50,
@@ -486,7 +505,7 @@
       ],
       [
         "analyze_codebase.py",
-        777
+        793
       ]
     ]
   }

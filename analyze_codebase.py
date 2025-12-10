@@ -18,7 +18,7 @@ import re
 from pathlib import Path
 from collections import defaultdict
 from typing import Dict, List, Tuple, Any
-import subprocess
+from datetime import datetime
 
 
 class CodeAnalyzer:
@@ -217,11 +217,19 @@ class CodeAnalyzer:
         try:
             with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
                 content = f.read()
-                # Look for port in uvicorn.run or similar
-                pattern = r'port["\s]*[=:]["\s]*(\d+)'
-                match = re.search(pattern, content)
-                if match:
-                    return match.group(1)
+                # Look for port in uvicorn.run or similar (more flexible pattern)
+                patterns = [
+                    r'port\s*=\s*(\d+)',
+                    r'--port\s+(\d+)',
+                    r':(\d{4,5})\b'  # Look for :8001, :8002, etc.
+                ]
+                for pattern in patterns:
+                    match = re.search(pattern, content)
+                    if match:
+                        port = match.group(1)
+                        # Validate it's a reasonable port number
+                        if 1000 <= int(port) <= 65535:
+                            return port
         except Exception as e:
             pass
         return None
@@ -265,14 +273,18 @@ class CodeAnalyzer:
             with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
                 for line in f:
                     line = line.strip()
-                    if line and not line.startswith('#'):
+                    if line and not line.startswith('#') and not line.startswith('-'):
                         # Parse package==version or package>=version
-                        match = re.match(r'([a-zA-Z0-9\-_]+)\s*([=><!]+)\s*([0-9.]+)', line)
+                        # Updated regex to handle dots, hyphens, underscores, and brackets
+                        match = re.match(r'([a-zA-Z0-9\-_.]+(?:\[[a-zA-Z0-9\-_,]+\])?)\s*([=><!]+)\s*([0-9.]+)', line)
                         if match:
                             pkg, op, version = match.groups()
                             requirements[pkg] = f"{op}{version}"
-                        elif '==' not in line and '>=' not in line:
-                            requirements[line] = "any"
+                        elif not any(op in line for op in ['==', '>=', '<=', '>', '<', '!=']):
+                            # Package without version specifier
+                            pkg = re.match(r'([a-zA-Z0-9\-_.]+(?:\[[a-zA-Z0-9\-_,]+\])?)', line)
+                            if pkg:
+                                requirements[pkg.group(1)] = "any"
         except Exception as e:
             pass
         return requirements
@@ -374,8 +386,10 @@ class CodeAnalyzer:
                             if 'bcrypt' in content.lower() or 'hash_password' in content:
                                 security["security_patterns"]["password_hashing"] = True
                             
-                            # Check for SQL parameterization (good practice)
-                            if 'execute(' in content and '?' in content:
+                            # Check for SQL parameterization (good practice for SQLAlchemy/FastAPI)
+                            # Look for parameterized queries with proper ORM usage
+                            if ('session.query' in content or 'session.execute' in content or 
+                                'select(' in content or '.filter(' in content):
                                 security["security_patterns"]["sql_parameterization"] = True
                             
                             # Look for potential hardcoded credentials (basic check)
@@ -488,9 +502,11 @@ class CodeAnalyzer:
         """Generate overall summary"""
         print("📋 Generating Summary...\n")
         
+        from datetime import datetime
+        
         summary = {
             "repository": "VetrAI Platform",
-            "analysis_date": subprocess.check_output(['date', '+%Y-%m-%d']).decode().strip(),
+            "analysis_date": datetime.now().strftime('%Y-%m-%d'),
             "total_services": len(self.results.get("services", {})),
             "total_python_files": self.results["code_metrics"].get("python_files", 0),
             "total_code_lines": self.results["code_metrics"].get("code_lines", 0),
