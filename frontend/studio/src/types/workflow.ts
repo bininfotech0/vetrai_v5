@@ -4,7 +4,7 @@ export interface WorkflowNode {
   position: { x: number; y: number };
   data: {
     label: string;
-    config: Record<string, any>;
+    config: Record<string, unknown>;
   };
 }
 
@@ -13,7 +13,7 @@ export interface WorkflowEdge {
   source: string;
   target: string;
   type?: string;
-  data?: Record<string, any>;
+  data?: Record<string, unknown>;
 }
 
 export interface Workflow {
@@ -35,8 +35,8 @@ export interface WorkflowExecution {
   id: string;
   workflowId: string;
   status: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
-  inputs: Record<string, any>;
-  outputs?: Record<string, any>;
+  inputs: Record<string, unknown>;
+  outputs?: Record<string, unknown>;
   error?: string;
   startedAt: string;
   completedAt?: string;
@@ -48,7 +48,7 @@ export interface JobTemplate {
   name: string;
   description?: string;
   workflow: Workflow;
-  defaultInputs: Record<string, any>;
+  defaultInputs: Record<string, unknown>;
   isPublic: boolean;
   organizationId: string;
   createdAt: string;

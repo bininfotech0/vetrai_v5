@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import ReactFlow, {
   addEdge,
   applyEdgeChanges,
   applyNodeChanges,
   Background,
+  BackgroundVariant,
   Controls,
   MiniMap,
   Node,
@@ -16,7 +17,6 @@ import 'reactflow/dist/style.css';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { PlayIcon, StopIcon, DocumentArrowDownIcon } from '@heroicons/react/24/outline';
-import type { WorkflowNode, WorkflowEdge } from '@/types/workflow';
 
 const initialNodes: Node[] = [
   {
@@ -138,7 +138,7 @@ export function WorkflowBuilder() {
         >
           <Controls />
           <MiniMap />
-          <Background variant={'dots' as any} gap={12} size={1} />
+          <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
         </ReactFlow>
       </div>
     </div>
