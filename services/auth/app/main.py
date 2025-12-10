@@ -1,94 +1,128 @@
-"""
-Authentication Service - VetrAI Platform
+import os
+from datetime import datetime, timedelta
+from typing import Optional
 
-Handles user authentication, JWT token management, and user CRUD operations.
-"""
-from fastapi import FastAPI, Request
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-import logging
-import sys
-from pathlib import Path
+from fastapi import FastAPI, HTTPException, Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from pydantic import BaseModel, EmailStr
+from sqlmodel import Session, select, SQLModel
 
-# Add shared modules to path
-sys.path.append(str(Path(__file__).parent.parent))
-
-from shared.config import get_settings
-from routes import router as auth_router
-
-settings = get_settings()
-
-# Configure logging
-logging.basicConfig(
-    level=getattr(logging, settings.log_level),
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
-logger = logging.getLogger(__name__)
-
-# Create FastAPI application
-app = FastAPI(
-    title="VetrAI Authentication Service",
-    description="Authentication and user management service for VetrAI Platform",
-    version=settings.api_version,
-    docs_url="/docs",
-    redoc_url="/redoc",
-    openapi_url="/openapi.json"
+from .models import User
+from .auth import (
+    get_password_hash,
+    verify_password,
+    create_access_token,
+    create_refresh_token,
+    store_refresh_token,
+    verify_refresh_token,
+    revoke_refresh_tokens_for_user,
+    revoke_access_tokens_for_user,
+    verify_access_token,
+    engine as auth_engine,
 )
 
-# Configure CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=settings.cors_origins,
-    allow_credentials=settings.cors_allow_credentials,
-    allow_methods=settings.cors_allow_methods,
-    allow_headers=settings.cors_allow_headers,
-)
+# App and DB
+app = FastAPI(title="VetrAI Auth Service")
+
+# Reuse engine from auth module
+engine = auth_engine
+
+# Schemas
+class RegisterIn(BaseModel):
+    email: EmailStr
+    password: str
+    name: Optional[str] = None
 
 
-@app.exception_handler(Exception)
-async def global_exception_handler(request: Request, exc: Exception):
-    """Global exception handler"""
-    logger.error(f"Global exception: {exc}", exc_info=True)
-    return JSONResponse(
-        status_code=500,
-        content={"detail": "Internal server error"}
-    )
+class TokenOut(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    refresh_token: str
+
+
+class LoginIn(BaseModel):
+    email: EmailStr
+    password: str
 
 
 @app.on_event("startup")
-async def startup_event():
-    """Startup event handler"""
-    logger.info("Starting Authentication Service...")
-    logger.info(f"Environment: {settings.environment}")
-    logger.info(f"Debug mode: {settings.debug}")
-
-
-@app.on_event("shutdown")
-async def shutdown_event():
-    """Shutdown event handler"""
-    logger.info("Shutting down Authentication Service...")
-
-
-@app.get("/")
-async def root():
-    """Root endpoint"""
-    return {
-        "service": "VetrAI Authentication Service",
-        "version": settings.api_version,
-        "status": "running"
-    }
+def on_startup():
+    # ensure tables exist
+    SQLModel.metadata.create_all(engine)
 
 
 @app.get("/health")
-async def health_check():
-    """Health check endpoint"""
-    return {"status": "healthy"}
+def health():
+    return {"status": "ok", "service": "auth"}
 
 
-# Include routers
-app.include_router(auth_router, prefix=f"/api/{settings.api_version}", tags=["auth"])
+@app.post("/register", response_model=dict, status_code=201)
+def register(payload: RegisterIn):
+    with Session(engine) as session:
+        q = select(User).where(User.email == payload.email)
+        existing = session.exec(q).first()
+        if existing:
+            raise HTTPException(status_code=400, detail="Email already registered")
+        user = User(email=payload.email, password_hash=get_password_hash(payload.password), name=payload.name)
+        session.add(user)
+        session.commit()
+        session.refresh(user)
+        return {"id": user.id, "email": user.email, "name": user.name}
 
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000, log_level=settings.log_level.lower())
+@app.post("/login", response_model=TokenOut)
+def login(payload: LoginIn):
+    with Session(engine) as session:
+        q = select(User).where(User.email == payload.email)
+        user = session.exec(q).first()
+        if not user or not verify_password(payload.password, user.password_hash):
+            raise HTTPException(status_code=401, detail="Invalid credentials")
+        # create opaque access token and refresh token
+        access = create_access_token(session, user.id)
+        refresh = create_refresh_token()
+        expires_at = datetime.utcnow() + timedelta(seconds=int(os.getenv("REFRESH_TOKEN_EXPIRE_SECONDS", "2592000")))
+        # store hashed refresh token
+        store_refresh_token(session, user.id, refresh, expires_at=expires_at)
+        return TokenOut(access_token=access, refresh_token=refresh)
+
+
+class RefreshIn(BaseModel):
+    user_id: str
+    refresh_token: str
+
+
+@app.post("/refresh", response_model=TokenOut)
+def refresh(payload: RefreshIn):
+    with Session(engine) as session:
+        if not verify_refresh_token(session, payload.user_id, payload.refresh_token):
+            raise HTTPException(status_code=401, detail="Invalid refresh token")
+        # revoke existing refresh tokens and access tokens (rotation)
+        revoke_refresh_tokens_for_user(session, payload.user_id)
+        revoke_access_tokens_for_user(session, payload.user_id)
+        # issue new tokens
+        access = create_access_token(session, payload.user_id)
+        refresh = create_refresh_token()
+        expires_at = datetime.utcnow() + timedelta(seconds=int(os.getenv("REFRESH_TOKEN_EXPIRE_SECONDS", "2592000")))
+        store_refresh_token(session, payload.user_id, refresh, expires_at=expires_at)
+        return TokenOut(access_token=access, refresh_token=refresh)
+
+
+security = HTTPBearer()
+
+
+def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    token = credentials.credentials
+    with Session(engine) as session:
+        user_id = verify_access_token(session, token)
+        if not user_id:
+            raise HTTPException(status_code=401, detail="Invalid or expired access token")
+        q = select(User).where(User.id == user_id)
+        user = session.exec(q).first()
+        if not user:
+            raise HTTPException(status_code=401, detail="User not found")
+        return user
+
+
+@app.get("/users/me")
+def me(current_user: User = Depends(get_current_user)):
+    return {"id": current_user.id, "email": current_user.email, "name": current_user.name}
