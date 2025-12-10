@@ -31,6 +31,9 @@ COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 
+# Ensure styles are available in production
+COPY --from=builder /app/src/styles ./src/styles
+
 USER nextjs
 
 EXPOSE 3001
