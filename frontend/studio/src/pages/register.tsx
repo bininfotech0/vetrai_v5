@@ -80,8 +80,9 @@ export default function Register() {
       });
       toast.success('Account created successfully!');
       router.replace('/');
-    } catch (error: any) {
-      toast.error(error.message || 'Registration failed');
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Registration failed';
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

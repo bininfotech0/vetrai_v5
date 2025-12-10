@@ -36,7 +36,7 @@ export interface Organization {
   id: string;
   name: string;
   planType: string;
-  settings: Record<string, any>;
+  settings: Record<string, unknown>;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;

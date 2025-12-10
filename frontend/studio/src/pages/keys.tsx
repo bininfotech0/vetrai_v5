@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/Table';
 import { Dialog, DialogTitle, DialogDescription, DialogCloseButton } from '@/components/ui/Dialog';
-import { Form, FormField, FormLabel, FormMessage, FormDescription } from '@/components/ui/Form';
+import { Form, FormField, FormLabel, FormDescription } from '@/components/ui/Form';
 import { Select } from '@/components/ui/Select';
 import { Alert, AlertDescription } from '@/components/ui/Alert';
 import { PlusIcon, TrashIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
@@ -278,7 +278,7 @@ export default function ApiKeys() {
                 <Select
                   id="keyScope"
                   value={newKeyScope}
-                  onChange={(e) => setNewKeyScope(e.target.value as any)}
+                  onChange={(e) => setNewKeyScope(e.target.value as 'read' | 'write' | 'admin')}
                   options={[
                     { value: 'read', label: 'Read - View data only' },
                     { value: 'write', label: 'Write - Create and modify data' },

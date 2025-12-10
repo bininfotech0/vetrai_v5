@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { authApi } from '@/lib/api/auth';
-import type { User, LoginCredentials, RegisterData } from '@/types/auth';
+import type { User, RegisterData } from '@/types/auth';
 
 interface AuthContextType {
   user: User | null;
@@ -17,7 +17,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const isAuthenticated = !!user;
 
   useEffect(() => {
     const initAuth = async () => {

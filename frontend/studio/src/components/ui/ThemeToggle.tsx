@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from './Button';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
-import { cn } from '@/lib/utils';
 
 export function ThemeToggle() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');

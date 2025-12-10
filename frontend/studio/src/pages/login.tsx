@@ -36,8 +36,9 @@ export default function Login() {
       await login(email, password);
       toast.success('Welcome to VetrAI Studio!');
       router.replace('/');
-    } catch (error: any) {
-      toast.error(error.message || 'Login failed');
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Login failed';
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

@@ -1,15 +1,11 @@
-import { useRouter } from 'next/router';
 import { useAuth } from '@/contexts/AuthContext';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { Header } from '@/components/layout/Header';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { Badge } from '@/components/ui/Badge';
-import { formatDateTime } from '@/lib/utils';
-
 export default function Profile() {
   const { user } = useAuth();
-  const router = useRouter();
 
   if (!user) {
     return (

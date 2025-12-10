@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/Table';
 import { Dialog, DialogTitle, DialogDescription, DialogCloseButton } from '@/components/ui/Dialog';
-import { Form, FormField, FormLabel, FormMessage, FormDescription } from '@/components/ui/Form';
+import { Form, FormField, FormLabel, FormDescription } from '@/components/ui/Form';
 import { Select } from '@/components/ui/Select';
 import { Alert, AlertDescription } from '@/components/ui/Alert';
 import { PlusIcon, TrashIcon, PencilIcon } from '@heroicons/react/24/outline';
@@ -210,7 +210,7 @@ export default function Team() {
             <Select
               id="memberRole"
               value={inviteData.role}
-              onChange={(e) => setInviteData({ ...inviteData, role: e.target.value as any })}
+              onChange={(e) => setInviteData({ ...inviteData, role: e.target.value as TeamMember['role'] })}
               options={[
                 { value: 'user', label: 'User - Standard access' },
                 { value: 'org_admin', label: 'Org Admin - Full organization access' },

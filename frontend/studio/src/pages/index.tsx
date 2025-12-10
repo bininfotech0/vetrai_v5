@@ -7,7 +7,7 @@ import { Header } from '@/components/layout/Header';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 
 export default function Home() {
-  const { user, loading, isAuthenticated } = useAuth();
+  const { loading, isAuthenticated } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
