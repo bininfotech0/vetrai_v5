@@ -1,0 +1,148 @@
+{
+  "document_processing": {
+    "name": "Document Intelligence Pipeline",
+    "description": "Extract, analyze, and categorize documents using AI",
+    "nodes": [
+      {
+        "id": "doc_upload",
+        "type": "file_input",
+        "config": {
+          "accepted_types": [
+            "pdf",
+            "docx",
+            "txt"
+          ]
+        }
+      },
+      {
+        "id": "ocr_extraction",
+        "type": "ai_ocr",
+        "config": {
+          "engine": "tesseract",
+          "languages": [
+            "en",
+            "es",
+            "fr"
+          ]
+        }
+      },
+      {
+        "id": "text_analysis",
+        "type": "llm_analysis",
+        "config": {
+          "model": "gpt-4",
+          "tasks": [
+            "sentiment",
+            "entities",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "data_storage",
+        "type": "database_insert",
+        "config": {
+          "table": "processed_documents"
+        }
+      }
+    ]
+  },
+  "customer_support_automation": {
+    "name": "AI Customer Support Agent",
+    "description": "Automated customer support with escalation",
+    "nodes": [
+      {
+        "id": "query_input",
+        "type": "text_input",
+        "config": {
+          "source": "chat",
+          "webhook": "/api/support"
+        }
+      },
+      {
+        "id": "intent_classification",
+        "type": "llm_classifier",
+        "config": {
+          "model": "claude-3",
+          "classes": [
+            "technical",
+            "billing",
+            "general",
+            "complaint"
+          ]
+        }
+      },
+      {
+        "id": "knowledge_search",
+        "type": "vector_search",
+        "config": {
+          "index": "support_kb",
+          "top_k": 5
+        }
+      },
+      {
+        "id": "response_generation",
+        "type": "llm_response",
+        "config": {
+          "model": "gpt-4",
+          "temperature": 0.3
+        }
+      },
+      {
+        "id": "escalation_check",
+        "type": "conditional",
+        "config": {
+          "condition": "confidence < 0.8"
+        }
+      }
+    ]
+  },
+  "data_analytics_pipeline": {
+    "name": "Real-time Data Analytics",
+    "description": "Process and analyze streaming data with AI insights",
+    "nodes": [
+      {
+        "id": "data_ingestion",
+        "type": "stream_input",
+        "config": {
+          "source": "kafka",
+          "topic": "user_events"
+        }
+      },
+      {
+        "id": "data_cleaning",
+        "type": "data_processor",
+        "config": {
+          "operations": [
+            "normalize",
+            "validate",
+            "enrich"
+          ]
+        }
+      },
+      {
+        "id": "anomaly_detection",
+        "type": "ml_detector",
+        "config": {
+          "algorithm": "isolation_forest",
+          "threshold": 0.05
+        }
+      },
+      {
+        "id": "trend_analysis",
+        "type": "llm_analyst",
+        "config": {
+          "model": "claude-3",
+          "analysis_type": "trends"
+        }
+      },
+      {
+        "id": "dashboard_update",
+        "type": "websocket_emit",
+        "config": {
+          "channel": "analytics_dashboard"
+        }
+      }
+    ]
+  }
+}

@@ -16,8 +16,8 @@ from shared.utils import get_db, generate_api_key
 from shared.middleware import CurrentUser, get_current_user
 from shared.config import get_settings
 
-from .models import APIKey, APIKeyUsage
-from .schemas import (
+from models import APIKey, APIKeyUsage
+from schemas import (
     APIKeyCreate,
     APIKeyUpdate,
     APIKeyResponse,

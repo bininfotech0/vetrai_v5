@@ -14,8 +14,8 @@ from shared.utils import get_db
 from shared.middleware import CurrentUser, get_current_user, require_org_admin
 from shared.config import get_settings
 
-from .models import Theme, PublicPage
-from .schemas import (
+from models import Theme, PublicPage
+from schemas import (
     ThemeCreate,
     ThemeUpdate,
     ThemeResponse,

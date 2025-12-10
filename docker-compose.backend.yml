@@ -1,0 +1,167 @@
+
+services:
+  # Database Services
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: vetrai
+      POSTGRES_USER: vetrai_user
+      POSTGRES_PASSWORD: vetrai_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+
+  # Microservices
+  auth-service:
+    build: ./services/auth
+    ports:
+      - "8001:8000"
+    environment:
+      - DATABASE_URL=postgresql://vetrai_user:vetrai_pass@postgres:5432/vetrai
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  tenancy-service:
+    build: ./services/tenancy
+    ports:
+      - "8002:8000"
+    environment:
+      - DATABASE_URL=postgresql://vetrai_user:vetrai_pass@postgres:5432/vetrai
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  keys-service:
+    build: ./services/keys
+    ports:
+      - "8003:8000"
+    environment:
+      - DATABASE_URL=postgresql://vetrai_user:vetrai_pass@postgres:5432/vetrai
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  billing-service:
+    build: ./services/billing
+    ports:
+      - "8004:8000"
+    environment:
+      - DATABASE_URL=postgresql://vetrai_user:vetrai_pass@postgres:5432/vetrai
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  support-service:
+    build: ./services/support
+    ports:
+      - "8005:8000"
+    environment:
+      - DATABASE_URL=postgresql://vetrai_user:vetrai_pass@postgres:5432/vetrai
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  themes-service:
+    build: ./services/themes
+    ports:
+      - "8006:8000"
+    environment:
+      - DATABASE_URL=postgresql://vetrai_user:vetrai_pass@postgres:5432/vetrai
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  notifications-service:
+    build: ./services/notifications
+    ports:
+      - "8007:8000"
+    environment:
+      - DATABASE_URL=postgresql://vetrai_user:vetrai_pass@postgres:5432/vetrai
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  workers-service:
+    build: ./services/workers
+    ports:
+      - "8008:8000"
+    environment:
+      - DATABASE_URL=postgresql://vetrai_user:vetrai_pass@postgres:5432/vetrai
+      - REDIS_URL=redis://redis:6379
+      - MINIO_URL=http://minio:9000
+      - MINIO_ACCESS_KEY=minioadmin
+      - MINIO_SECRET_KEY=minioadmin
+    depends_on:
+      - postgres
+      - redis
+      - minio
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+  minio_data:

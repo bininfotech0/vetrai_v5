@@ -1,0 +1,50 @@
+{
+  "Auth": {
+    "status": "healthy",
+    "response_code": 200,
+    "response_time_ms": 24.34,
+    "timestamp": "2025-12-10T03:24:36.092616"
+  },
+  "Tenancy": {
+    "status": "healthy",
+    "response_code": 200,
+    "response_time_ms": 14.27,
+    "timestamp": "2025-12-10T03:24:36.107429"
+  },
+  "Keys": {
+    "status": "healthy",
+    "response_code": 200,
+    "response_time_ms": 26.34,
+    "timestamp": "2025-12-10T03:24:36.133771"
+  },
+  "Billing": {
+    "status": "healthy",
+    "response_code": 200,
+    "response_time_ms": 25.55,
+    "timestamp": "2025-12-10T03:24:36.159322"
+  },
+  "Support": {
+    "status": "healthy",
+    "response_code": 200,
+    "response_time_ms": 12.05,
+    "timestamp": "2025-12-10T03:24:36.171373"
+  },
+  "Themes": {
+    "status": "healthy",
+    "response_code": 200,
+    "response_time_ms": 21.47,
+    "timestamp": "2025-12-10T03:24:36.192846"
+  },
+  "Notifications": {
+    "status": "healthy",
+    "response_code": 200,
+    "response_time_ms": 11.01,
+    "timestamp": "2025-12-10T03:24:36.203853"
+  },
+  "Workers": {
+    "status": "healthy",
+    "response_code": 200,
+    "response_time_ms": 34.66,
+    "timestamp": "2025-12-10T03:24:36.238511"
+  }
+}

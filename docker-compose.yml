@@ -2,6 +2,43 @@ version: '3.8'
 
 services:
   # ============================================
+  # Frontend Applications
+  # ============================================
+  
+  studio-frontend:
+    build:
+      context: ./frontend/studio
+      dockerfile: Dockerfile
+    container_name: vetrai-studio
+    environment:
+      - NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+      - NEXT_PUBLIC_WEBSOCKET_URL=ws://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - auth-service
+      - tenancy-service
+    networks:
+      - vetrai-network
+    restart: unless-stopped
+
+  admin-dashboard:
+    build:
+      context: ./frontend/admin
+      dockerfile: Dockerfile
+    container_name: vetrai-admin
+    environment:
+      - NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+    ports:
+      - "3001:3001"
+    depends_on:
+      - auth-service
+      - tenancy-service
+    networks:
+      - vetrai-network
+    restart: unless-stopped
+
+  # ============================================
   # Database Services
   # ============================================
   postgres:
@@ -69,8 +106,8 @@ services:
   # ============================================
   auth-service:
     build:
-      context: ./services/auth
-      dockerfile: Dockerfile
+      context: ./services
+      dockerfile: auth/Dockerfile
     container_name: vetrai-auth
     environment:
       - DATABASE_URL=postgresql://vetrai:vetrai_password@postgres:5432/vetrai_db
@@ -83,16 +120,16 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    volumes:
-      - ./services/auth:/app
+    # volumes:
+      # - ./services/auth:/app  # Disabled for production
     networks:
       - vetrai-network
     restart: unless-stopped
 
   tenancy-service:
     build:
-      context: ./services/tenancy
-      dockerfile: Dockerfile
+      context: ./services
+      dockerfile: tenancy/Dockerfile
     container_name: vetrai-tenancy
     environment:
       - DATABASE_URL=postgresql://vetrai:vetrai_password@postgres:5432/vetrai_db
@@ -104,16 +141,16 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    volumes:
-      - ./services/tenancy:/app
+    # volumes:
+      # - ./services/tenancy:/app  # Disabled for production
     networks:
       - vetrai-network
     restart: unless-stopped
 
   keys-service:
     build:
-      context: ./services/keys
-      dockerfile: Dockerfile
+      context: ./services
+      dockerfile: keys/Dockerfile
     container_name: vetrai-keys
     environment:
       - DATABASE_URL=postgresql://vetrai:vetrai_password@postgres:5432/vetrai_db
@@ -125,16 +162,16 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    volumes:
-      - ./services/keys:/app
+    # volumes:
+      # - ./services/keys:/app  # Disabled for production
     networks:
       - vetrai-network
     restart: unless-stopped
 
   billing-service:
     build:
-      context: ./services/billing
-      dockerfile: Dockerfile
+      context: ./services
+      dockerfile: billing/Dockerfile
     container_name: vetrai-billing
     environment:
       - DATABASE_URL=postgresql://vetrai:vetrai_password@postgres:5432/vetrai_db
@@ -147,16 +184,16 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    volumes:
-      - ./services/billing:/app
+    # volumes:
+      # - ./services/billing:/app  # Disabled for production
     networks:
       - vetrai-network
     restart: unless-stopped
 
   support-service:
     build:
-      context: ./services/support
-      dockerfile: Dockerfile
+      context: ./services
+      dockerfile: support/Dockerfile
     container_name: vetrai-support
     environment:
       - DATABASE_URL=postgresql://vetrai:vetrai_password@postgres:5432/vetrai_db
@@ -171,16 +208,16 @@ services:
         condition: service_healthy
       minio:
         condition: service_healthy
-    volumes:
-      - ./services/support:/app
+    # volumes:
+      # - ./services/support:/app  # Disabled for production
     networks:
       - vetrai-network
     restart: unless-stopped
 
   themes-service:
     build:
-      context: ./services/themes
-      dockerfile: Dockerfile
+      context: ./services
+      dockerfile: themes/Dockerfile
     container_name: vetrai-themes
     environment:
       - DATABASE_URL=postgresql://vetrai:vetrai_password@postgres:5432/vetrai_db
@@ -195,22 +232,23 @@ services:
         condition: service_healthy
       minio:
         condition: service_healthy
-    volumes:
-      - ./services/themes:/app
+    # volumes:
+      # - ./services/themes:/app  # Disabled for production
     networks:
       - vetrai-network
     restart: unless-stopped
 
   notifications-service:
     build:
-      context: ./services/notifications
-      dockerfile: Dockerfile
+      context: ./services
+      dockerfile: notifications/Dockerfile
     container_name: vetrai-notifications
     environment:
       - DATABASE_URL=postgresql://vetrai:vetrai_password@postgres:5432/vetrai_db
       - REDIS_URL=redis://redis:6379/0
-      - SMTP_HOST=${SMTP_HOST}
-      - SMTP_PORT=${SMTP_PORT}
+      # Email settings - using application defaults
+      # - SMTP_HOST=${SMTP_HOST}
+      # - SMTP_PORT=${SMTP_PORT}
     ports:
       - "8007:8000"
     depends_on:
@@ -218,16 +256,16 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    volumes:
-      - ./services/notifications:/app
+    # volumes:
+      # - ./services/notifications:/app  # Disabled for production
     networks:
       - vetrai-network
     restart: unless-stopped
 
   workers-service:
     build:
-      context: ./services/workers
-      dockerfile: Dockerfile
+      context: ./services
+      dockerfile: workers/Dockerfile
     container_name: vetrai-workers
     environment:
       - DATABASE_URL=postgresql://vetrai:vetrai_password@postgres:5432/vetrai_db
@@ -240,8 +278,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    volumes:
-      - ./services/workers:/app
+    # volumes:
+      # - ./services/workers:/app  # Disabled for production
     networks:
       - vetrai-network
     restart: unless-stopped
@@ -251,8 +289,8 @@ services:
   # ============================================
   celery-worker:
     build:
-      context: ./services/workers
-      dockerfile: Dockerfile
+      context: ./services
+      dockerfile: workers/Dockerfile.celery
     container_name: vetrai-celery-worker
     command: celery -A app.celery_app worker --loglevel=info
     environment:
@@ -264,8 +302,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    volumes:
-      - ./services/workers:/app
+    # volumes:
+      # - ./services/workers:/app  # Disabled for production
     networks:
       - vetrai-network
     restart: unless-stopped

@@ -1,0 +1,53 @@
+
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: vetrai-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: vetrai-tls
+    hosts:
+    - api.vetrai.com
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: vetrai-api
+spec:
+  hosts:
+  - api.vetrai.com
+  gateways:
+  - vetrai-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /v1/auth
+    route:
+    - destination:
+        host: auth-service
+        port:
+          number: 80
+    fault:
+      delay:
+        percentage:
+          value: 0.1
+        fixedDelay: 5s
+  - match:
+    - uri:
+        prefix: /v1/ai
+    route:
+    - destination:
+        host: workers-service
+        port:
+          number: 80
+    retries:
+      attempts: 3
+      perTryTimeout: 30s

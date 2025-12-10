@@ -44,7 +44,7 @@ class Notification(BaseModel):
     recipient = Column(String(255), nullable=False)
     sender = Column(String(255), nullable=True)
     
-    metadata = Column(JSON, nullable=True, default=dict)
+    extra_data = Column(JSON, nullable=True, default=dict)
     error_message = Column(Text, nullable=True)
     
     def __repr__(self):

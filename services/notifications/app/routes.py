@@ -14,8 +14,8 @@ from shared.utils import get_db
 from shared.middleware import CurrentUser, get_current_user, require_org_admin
 from shared.config import get_settings
 
-from .models import Notification, NotificationTemplate, NotificationStatus
-from .schemas import (
+from models import Notification, NotificationTemplate, NotificationStatus
+from schemas import (
     NotificationCreate,
     NotificationResponse,
     TemplateCreate,
@@ -43,7 +43,7 @@ async def create_notification(
         subject=notification_data.subject,
         message=notification_data.message,
         recipient=notification_data.recipient,
-        metadata=notification_data.metadata
+        extra_data=notification_data.extra_data
     )
     
     db.add(notification)

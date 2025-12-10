@@ -12,7 +12,7 @@ class NotificationCreate(BaseModel):
     subject: Optional[str] = None
     message: str = Field(..., min_length=1)
     recipient: str = Field(..., min_length=1)
-    metadata: Optional[Dict[str, Any]] = None
+    extra_data: Optional[Dict[str, Any]] = None
 
 
 class NotificationResponse(BaseModel):
@@ -26,7 +26,7 @@ class NotificationResponse(BaseModel):
     message: str
     recipient: str
     sender: Optional[str]
-    metadata: Optional[Dict[str, Any]]
+    extra_data: Optional[Dict[str, Any]]
     error_message: Optional[str]
     created_at: datetime
     

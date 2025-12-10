@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  # Frontend Applications
+  # ============================================
+  
+  studio-frontend:
+    build:
+      context: ./frontend/studio
+      dockerfile: Dockerfile.dev
+    container_name: vetrai-studio
+    environment:
+      - NEXT_PUBLIC_API_BASE_URL=http://localhost:8001
+      - NEXT_PUBLIC_WEBSOCKET_URL=ws://localhost:8001
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  admin-dashboard:
+    build:
+      context: ./frontend/admin
+      dockerfile: Dockerfile.dev
+    container_name: vetrai-admin
+    environment:
+      - NEXT_PUBLIC_API_BASE_URL=http://localhost:8001
+    ports:
+      - "3001:3001"
+    restart: unless-stopped

@@ -13,8 +13,8 @@ from sqlalchemy.orm import Session
 from shared.utils import get_db
 from shared.middleware import CurrentUser, get_current_user, require_super_admin, require_org_admin
 
-from .models import Organization
-from .schemas import (
+from models import Organization
+from schemas import (
     OrganizationCreate,
     OrganizationUpdate,
     OrganizationResponse,

@@ -11,10 +11,10 @@ import sys
 from pathlib import Path
 
 # Add shared modules to path
-sys.path.append(str(Path(__file__).parent.parent.parent))
+sys.path.append(str(Path(__file__).parent.parent))
 
 from shared.config import get_settings
-from .routes import router as tenancy_router
+from routes import router as tenancy_router
 
 settings = get_settings()
 

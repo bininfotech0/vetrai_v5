@@ -15,8 +15,8 @@ from shared.utils import get_db
 from shared.middleware import CurrentUser, get_current_user, require_org_admin
 from shared.config import get_settings
 
-from .models import Job, WorkflowTemplate, JobStatus
-from .schemas import (
+from models import Job, WorkflowTemplate, JobStatus
+from schemas import (
     JobCreate,
     JobResponse,
     WorkflowTemplateCreate,
@@ -24,9 +24,13 @@ from .schemas import (
     WorkflowTemplateResponse,
     MessageResponse,
 )
+from ai_routes import router as ai_router
 
 router = APIRouter()
 settings = get_settings()
+
+# Include AI integration routes
+router.include_router(ai_router)
 
 
 @router.post("/jobs", response_model=JobResponse, status_code=status.HTTP_201_CREATED)

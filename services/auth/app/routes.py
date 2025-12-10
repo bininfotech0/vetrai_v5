@@ -24,8 +24,8 @@ from shared.utils import (
 from shared.middleware import CurrentUser, get_current_user, require_super_admin, require_org_admin
 from shared.config import get_settings
 
-from .models import User, RefreshToken
-from .schemas import (
+from models import User, RefreshToken
+from schemas import (
     UserCreate,
     UserUpdate,
     UserResponse,

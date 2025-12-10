@@ -16,8 +16,8 @@ from shared.utils import get_db
 from shared.middleware import CurrentUser, get_current_user
 from shared.config import get_settings
 
-from .models import Ticket, TicketComment, TicketAttachment, TicketStatus
-from .schemas import (
+from models import Ticket, TicketComment, TicketAttachment, TicketStatus
+from schemas import (
     TicketCreate,
     TicketUpdate,
     TicketResponse,

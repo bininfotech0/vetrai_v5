@@ -1,0 +1,13 @@
+
+rate_limiting:
+  global:
+    requests_per_minute: 1000
+  per_user:
+    requests_per_minute: 100
+  per_ip:
+    requests_per_minute: 200
+  ai_endpoints:
+    requests_per_minute: 50
+    burst_limit: 10
+  premium_users:
+    requests_per_minute: 500
