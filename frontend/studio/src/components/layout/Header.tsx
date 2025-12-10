@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/Button';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import {
   BellIcon,
   UserIcon,
@@ -38,6 +39,9 @@ export function Header() {
         </div>
 
         <div className="flex items-center space-x-4">
+          {/* Theme Toggle */}
+          <ThemeToggle />
+
           {/* Notifications */}
           <Button variant="ghost" size="icon" className="relative">
             <BellIcon className="h-5 w-5" />
