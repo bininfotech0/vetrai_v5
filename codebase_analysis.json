@@ -1,0 +1,493 @@
+{
+  "summary": {
+    "repository": "VetrAI Platform",
+    "analysis_date": "2025-12-10",
+    "total_services": 8,
+    "total_python_files": 83,
+    "total_code_lines": 10103,
+    "documentation_files": 19,
+    "health_score": 95
+  },
+  "code_metrics": {
+    "total_files": 200,
+    "python_files": 83,
+    "javascript_files": 35,
+    "markdown_files": 18,
+    "yaml_files": 10,
+    "dockerfile_count": 12,
+    "total_lines": 0,
+    "python_lines": 12943,
+    "blank_lines": 2339,
+    "comment_lines": 501,
+    "directories": 58,
+    "code_lines": 10103
+  },
+  "services": {
+    "billing": {
+      "path": "services/billing",
+      "files": [
+        "main.py",
+        "schemas.py",
+        "__init__.py",
+        "models.py",
+        "routes.py"
+      ],
+      "endpoints": [
+        "POST /subscriptions",
+        "GET /subscriptions",
+        "GET /subscriptions/{subscription_id}",
+        "POST /subscriptions/{subscription_id}/cancel",
+        "GET /invoices",
+        "GET /invoices/{invoice_id}",
+        "GET /payments",
+        "POST /webhooks/stripe"
+      ],
+      "models": [
+        "Subscription",
+        "Invoice",
+        "Payment"
+      ],
+      "has_dockerfile": true,
+      "has_requirements": true,
+      "has_tests": false,
+      "port": "8000"
+    },
+    "tenancy": {
+      "path": "services/tenancy",
+      "files": [
+        "main.py",
+        "schemas.py",
+        "__init__.py",
+        "models.py",
+        "routes.py"
+      ],
+      "endpoints": [
+        "POST /organizations",
+        "GET /organizations",
+        "GET /organizations/{org_id}",
+        "PUT /organizations/{org_id}",
+        "DELETE /organizations/{org_id}"
+      ],
+      "models": [
+        "Organization"
+      ],
+      "has_dockerfile": true,
+      "has_requirements": true,
+      "has_tests": false,
+      "port": "8000"
+    },
+    "notifications": {
+      "path": "services/notifications",
+      "files": [
+        "main.py",
+        "schemas.py",
+        "__init__.py",
+        "models.py",
+        "routes.py"
+      ],
+      "endpoints": [
+        "POST /",
+        "GET /",
+        "GET /{notification_id}",
+        "POST /templates",
+        "GET /templates",
+        "GET /templates/{template_id}",
+        "PUT /templates/{template_id}",
+        "DELETE /templates/{template_id}"
+      ],
+      "models": [
+        "Notification",
+        "NotificationTemplate"
+      ],
+      "has_dockerfile": true,
+      "has_requirements": true,
+      "has_tests": false,
+      "port": "8000"
+    },
+    "themes": {
+      "path": "services/themes",
+      "files": [
+        "main.py",
+        "schemas.py",
+        "__init__.py",
+        "models.py",
+        "routes.py"
+      ],
+      "endpoints": [
+        "POST /",
+        "GET /",
+        "PUT /",
+        "POST /pages",
+        "GET /pages",
+        "GET /pages/{slug}",
+        "PUT /pages/{slug}",
+        "DELETE /pages/{slug}"
+      ],
+      "models": [
+        "Theme",
+        "PublicPage"
+      ],
+      "has_dockerfile": true,
+      "has_requirements": true,
+      "has_tests": false,
+      "port": "8000"
+    },
+    "keys": {
+      "path": "services/keys",
+      "files": [
+        "main.py",
+        "schemas.py",
+        "__init__.py",
+        "models.py",
+        "routes.py"
+      ],
+      "endpoints": [
+        "POST /",
+        "GET /",
+        "GET /{key_id}",
+        "PUT /{key_id}",
+        "DELETE /{key_id}",
+        "GET /{key_id}/usage"
+      ],
+      "models": [
+        "APIKey",
+        "APIKeyUsage"
+      ],
+      "has_dockerfile": true,
+      "has_requirements": true,
+      "has_tests": false,
+      "port": "8000"
+    },
+    "support": {
+      "path": "services/support",
+      "files": [
+        "main.py",
+        "schemas.py",
+        "__init__.py",
+        "models.py",
+        "routes.py"
+      ],
+      "endpoints": [
+        "POST /tickets",
+        "GET /tickets",
+        "GET /tickets/{ticket_id}",
+        "PUT /tickets/{ticket_id}",
+        "POST /tickets/{ticket_id}/comments",
+        "GET /tickets/{ticket_id}/comments",
+        "POST /tickets/{ticket_id}/attachments",
+        "GET /tickets/{ticket_id}/attachments"
+      ],
+      "models": [
+        "Ticket",
+        "TicketComment",
+        "TicketAttachment"
+      ],
+      "has_dockerfile": true,
+      "has_requirements": true,
+      "has_tests": false,
+      "port": "8000"
+    },
+    "auth": {
+      "path": "services/auth",
+      "files": [
+        "main.py",
+        "schemas.py",
+        "__init__.py",
+        "models.py",
+        "routes.py"
+      ],
+      "endpoints": [
+        "POST /register",
+        "POST /login",
+        "POST /refresh",
+        "POST /logout",
+        "GET /me",
+        "PUT /me",
+        "POST /change-password",
+        "GET /users",
+        "GET /users/{user_id}",
+        "PUT /users/{user_id}",
+        "DELETE /users/{user_id}"
+      ],
+      "models": [
+        "User",
+        "RefreshToken",
+        "AccessToken",
+        "AuditLog"
+      ],
+      "has_dockerfile": true,
+      "has_requirements": true,
+      "has_tests": false,
+      "port": "8000"
+    },
+    "workers": {
+      "path": "services/workers",
+      "files": [
+        "ai_routes.py",
+        "main.py",
+        "schemas.py",
+        "__init__.py",
+        "models.py",
+        "routes.py"
+      ],
+      "endpoints": [
+        "POST /jobs",
+        "GET /jobs",
+        "GET /jobs/{job_id}",
+        "POST /jobs/{job_id}/cancel",
+        "POST /templates",
+        "GET /templates",
+        "GET /templates/{template_id}",
+        "PUT /templates/{template_id}",
+        "DELETE /templates/{template_id}"
+      ],
+      "models": [
+        "Job",
+        "WorkflowTemplate"
+      ],
+      "has_dockerfile": true,
+      "has_requirements": true,
+      "has_tests": false,
+      "port": "8000"
+    }
+  },
+  "dependencies": {
+    "services": {
+      "billing": {
+        "fastapi": "==0.109.1",
+        "pydantic": "==2.5.0",
+        "pydantic-settings": "==2.1.0",
+        "sqlalchemy": "==2.0.23",
+        "psycopg2-binary": "==2.9.9",
+        "stripe": "==7.9.0",
+        "redis": "==5.0.1",
+        "httpx": "==0.25.2",
+        "python-dotenv": "==1.0.0",
+        "prometheus-client": "==0.19.0"
+      },
+      "tenancy": {
+        "fastapi": "==0.109.1",
+        "pydantic": "==2.5.0",
+        "pydantic-settings": "==2.1.0",
+        "sqlalchemy": "==2.0.23",
+        "psycopg2-binary": "==2.9.9",
+        "redis": "==5.0.1",
+        "python-dotenv": "==1.0.0",
+        "prometheus-client": "==0.19.0"
+      },
+      "notifications": {
+        "fastapi": "==0.109.1",
+        "pydantic": "==2.5.0",
+        "pydantic-settings": "==2.1.0",
+        "sqlalchemy": "==2.0.23",
+        "psycopg2-binary": "==2.9.9",
+        "redis": "==5.0.1",
+        "fastapi-mail": "==1.4.1",
+        "httpx": "==0.25.2",
+        "python-dotenv": "==1.0.0",
+        "prometheus-client": "==0.19.0"
+      },
+      "themes": {
+        "fastapi": "==0.109.1",
+        "pydantic": "==2.5.0",
+        "pydantic-settings": "==2.1.0",
+        "python-multipart": "==0.0.18",
+        "sqlalchemy": "==2.0.23",
+        "psycopg2-binary": "==2.9.9",
+        "redis": "==5.0.1",
+        "minio": "==7.2.0",
+        "httpx": "==0.25.2",
+        "python-dotenv": "==1.0.0",
+        "prometheus-client": "==0.19.0"
+      },
+      "keys": {
+        "fastapi": "==0.109.1",
+        "pydantic": "==2.5.0",
+        "pydantic-settings": "==2.1.0",
+        "sqlalchemy": "==2.0.23",
+        "psycopg2-binary": "==2.9.9",
+        "redis": "==5.0.1",
+        "httpx": "==0.25.2",
+        "python-dotenv": "==1.0.0",
+        "prometheus-client": "==0.19.0"
+      },
+      "support": {
+        "fastapi": "==0.109.1",
+        "pydantic": "==2.5.0",
+        "pydantic-settings": "==2.1.0",
+        "python-multipart": "==0.0.18",
+        "sqlalchemy": "==2.0.23",
+        "psycopg2-binary": "==2.9.9",
+        "redis": "==5.0.1",
+        "minio": "==7.2.0",
+        "httpx": "==0.25.2",
+        "python-dotenv": "==1.0.0",
+        "prometheus-client": "==0.19.0"
+      },
+      "auth": {
+        "fastapi": "==0.109.1",
+        "pydantic": "==2.5.0",
+        "pydantic-settings": "==2.1.0",
+        "python-multipart": "==0.0.18",
+        "sqlalchemy": "==2.0.23",
+        "psycopg2-binary": "==2.9.9",
+        "alembic": "==1.12.1",
+        "fastapi-mail": "==1.4.1",
+        "httpx": "==0.25.2",
+        "redis": "==5.0.1",
+        "python-dotenv": "==1.0.0",
+        "prometheus-client": "==0.19.0"
+      },
+      "workers": {
+        "fastapi": "==0.109.1",
+        "pydantic": "==2.5.0",
+        "pydantic-settings": "==2.1.0",
+        "sqlalchemy": "==2.0.23",
+        "psycopg2-binary": "==2.9.9",
+        "redis": "==5.0.1",
+        "celery": "==5.3.4",
+        "httpx": "==0.25.2",
+        "python-dotenv": "==1.0.0",
+        "langflow": "==1.0.0",
+        "langchain": "==0.1.0",
+        "langchain-openai": "==0.0.5",
+        "langchain-community": "==0.0.10",
+        "langgraph": "==0.0.26",
+        "langchain-core": "==0.1.10",
+        "transformers": "==4.36.0",
+        "torch": ">=2.0.0",
+        "sentence-transformers": "==2.2.2",
+        "llama-cpp-python": "==0.2.20",
+        "ollama": "==0.1.7",
+        "openai": ">=1.0.0",
+        "huggingface-hub": "==0.19.4",
+        "numpy": ">=1.24.0",
+        "scipy": ">=1.11.0",
+        "prometheus-client": "==0.19.0"
+      },
+      "shared": {
+        "fastapi": "==0.109.1",
+        "pydantic": "==2.5.0",
+        "pydantic-settings": "==2.1.0",
+        "sqlalchemy": "==2.0.23",
+        "psycopg2-binary": "==2.9.9",
+        "alembic": "==1.12.1",
+        "python-multipart": "==0.0.18",
+        "redis": "==5.0.1",
+        "hiredis": "==2.2.3",
+        "httpx": "==0.25.2",
+        "aiohttp": "==3.9.4",
+        "python-dotenv": "==1.0.0",
+        "pydantic-core": "==2.14.1",
+        "typing-extensions": "==4.15.0",
+        "prometheus-client": "==0.19.0",
+        "pytest": "==7.4.3",
+        "pytest-asyncio": "==0.21.1",
+        "pytest-cov": "==4.1.0"
+      }
+    },
+    "common_packages": {
+      "fastapi": 9,
+      "pydantic": 9,
+      "pydantic-settings": 9,
+      "sqlalchemy": 9,
+      "psycopg2-binary": 9,
+      "stripe": 1,
+      "redis": 9,
+      "httpx": 8,
+      "python-dotenv": 9,
+      "prometheus-client": 9,
+      "fastapi-mail": 2,
+      "python-multipart": 4,
+      "minio": 2,
+      "alembic": 2,
+      "celery": 1,
+      "langflow": 1,
+      "langchain": 1,
+      "langchain-openai": 1,
+      "langchain-community": 1,
+      "langgraph": 1,
+      "langchain-core": 1,
+      "transformers": 1,
+      "torch": 1,
+      "sentence-transformers": 1,
+      "llama-cpp-python": 1,
+      "ollama": 1,
+      "openai": 1,
+      "huggingface-hub": 1,
+      "numpy": 1,
+      "scipy": 1,
+      "hiredis": 1,
+      "aiohttp": 1,
+      "pydantic-core": 1,
+      "typing-extensions": 1,
+      "pytest": 1,
+      "pytest-asyncio": 1,
+      "pytest-cov": 1
+    },
+    "version_conflicts": []
+  },
+  "security": {
+    "env_example_found": true,
+    "gitignore_found": true,
+    "security_md_found": true,
+    "dockerignore_found": false,
+    "secrets_in_code": [],
+    "hardcoded_urls": [],
+    "security_patterns": {
+      "jwt_usage": true,
+      "password_hashing": true,
+      "sql_parameterization": false
+    }
+  },
+  "documentation": {
+    "markdown_files": [
+      "CONTRIBUTING.md",
+      "NEXT_STEPS.md",
+      "UNIVERSAL_FIX_COMPLETE.md",
+      "IMPLEMENTATION_SUMMARY.md",
+      "PROJECT_SUMMARY.md",
+      "README.md",
+      "MISSION_ACCOMPLISHED.md",
+      "AI_INTEGRATIONS.md",
+      "SECURITY.md",
+      ".github/agents/my-agent.agent.md",
+      "docs/SERVICES.md",
+      "docs/QUICKSTART.md",
+      "docs/api/README.md",
+      "docs/architecture/README.md",
+      "docs/guides/quickstart.md",
+      "docs/deployment/production-guide.md",
+      "docs/deployment/README.md",
+      "docs/deployment/PRODUCTION_DEPLOYMENT.md",
+      "frontend/README.md"
+    ],
+    "readme_found": true,
+    "contributing_found": true,
+    "api_docs": true,
+    "architecture_docs": true,
+    "deployment_docs": true,
+    "total_doc_lines": 5921
+  },
+  "quality": {
+    "python_files_with_docstrings": 50,
+    "python_files_without_docstrings": 33,
+    "files_with_type_hints": 62,
+    "test_files": 5,
+    "avg_function_length": 13,
+    "long_files": [
+      [
+        "scripts/testing/e2e_testing.py",
+        891
+      ],
+      [
+        "next_level_enhancements.py",
+        800
+      ],
+      [
+        "analyze_codebase.py",
+        777
+      ]
+    ]
+  }
+}
