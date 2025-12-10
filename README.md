@@ -35,6 +35,7 @@ VetrAI is a commercial-grade AI workflow platform built on top of LangFlow, feat
 ## 📋 Table of Contents
 
 - [Quick Start](#quick-start)
+- [Screenshots](#screenshots)
 - [Architecture](#architecture)
 - [Services](#services)
 - [Development Setup](#development-setup)
@@ -86,6 +87,20 @@ VetrAI is a commercial-grade AI workflow platform built on top of LangFlow, feat
    - Studio: http://localhost:3000
    - Admin Dashboard: http://localhost:3001
    - API Documentation: http://localhost:8000/docs
+
+## 📸 Screenshots
+
+Visual overview of the VetrAI platform's frontend and backend interfaces:
+
+### Frontend
+- **Studio Dashboard**: Visual workflow builder with LangFlow integration
+- **Admin Dashboard**: Comprehensive management interface for the entire platform
+
+### Backend
+- **API Documentation**: Interactive Swagger UI for all 8 microservices
+- **Monitoring**: Grafana and Prometheus dashboards
+
+👉 **[View all screenshots and detailed documentation](docs/SCREENSHOTS.md)**
 
 ## 🏗️ Architecture
 
@@ -284,6 +299,7 @@ pytest --cov=services --cov-report=html
 
 Detailed documentation is available in the `/docs` directory:
 
+- [Screenshots & Visual Guide](docs/SCREENSHOTS.md)
 - [API Documentation](docs/api/README.md)
 - [Architecture Guide](docs/architecture/README.md)
 - [Deployment Guide](docs/deployment/README.md)
