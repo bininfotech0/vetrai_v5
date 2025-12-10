@@ -73,6 +73,9 @@ VetrAI is a commercial-grade AI workflow platform built on top of LangFlow, feat
    docker-compose up -d
    ```
 
+> Note: If you're using a different Docker setup (Docker Desktop vs Linux), see `docs/compose-usage.md` for guidance on using `docker-compose` vs `docker compose` and correct flag placement.
+
+
 4. **Run database migrations**
    ```bash
    ./scripts/setup/migrate.sh
