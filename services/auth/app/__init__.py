@@ -1,1 +1,3 @@
-# Auth service application package
+"""
+Authentication Service for VetrAI Platform
+"""

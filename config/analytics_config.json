@@ -1,0 +1,58 @@
+{
+  "data_sources": {
+    "user_events": {
+      "type": "kafka",
+      "topic": "user.events",
+      "schema": {
+        "user_id": "string",
+        "event_type": "string",
+        "timestamp": "datetime",
+        "properties": "json"
+      }
+    },
+    "ai_metrics": {
+      "type": "prometheus",
+      "metrics": [
+        "ai_request_duration",
+        "ai_request_count",
+        "model_accuracy",
+        "token_usage"
+      ]
+    }
+  },
+  "analytics_pipelines": {
+    "user_behavior": {
+      "input": "user_events",
+      "transformations": [
+        "sessionize",
+        "feature_extraction",
+        "ml_inference"
+      ],
+      "output": "user_insights_db"
+    },
+    "ai_performance": {
+      "input": "ai_metrics",
+      "transformations": [
+        "aggregation",
+        "anomaly_detection",
+        "trend_analysis"
+      ],
+      "output": "performance_dashboard"
+    }
+  },
+  "ml_models": {
+    "churn_prediction": {
+      "type": "xgboost",
+      "features": [
+        "usage_frequency",
+        "feature_adoption",
+        "support_tickets"
+      ],
+      "target": "churned_30d"
+    },
+    "usage_optimization": {
+      "type": "collaborative_filtering",
+      "purpose": "recommend_features"
+    }
+  }
+}

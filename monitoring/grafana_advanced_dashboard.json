@@ -1,0 +1,57 @@
+{
+  "dashboard": {
+    "title": "VetrAI Platform - Executive Dashboard",
+    "panels": [
+      {
+        "title": "Business Metrics",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "sum(vetrai_total_users)",
+            "legendFormat": "Total Users"
+          },
+          {
+            "expr": "sum(vetrai_active_organizations)",
+            "legendFormat": "Active Orgs"
+          },
+          {
+            "expr": "sum(vetrai_monthly_revenue)",
+            "legendFormat": "Monthly Revenue"
+          },
+          {
+            "expr": "sum(vetrai_ai_workflows_created)",
+            "legendFormat": "AI Workflows"
+          }
+        ]
+      },
+      {
+        "title": "AI Performance",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(vetrai_ai_requests_total[5m])",
+            "legendFormat": "AI Requests/sec"
+          },
+          {
+            "expr": "histogram_quantile(0.95, vetrai_ai_request_duration_seconds)",
+            "legendFormat": "95th percentile latency"
+          },
+          {
+            "expr": "rate(vetrai_ai_errors_total[5m])",
+            "legendFormat": "Error Rate"
+          }
+        ]
+      },
+      {
+        "title": "Service Health Matrix",
+        "type": "heatmap",
+        "targets": [
+          {
+            "expr": "up{job=~'vetrai-.*'}",
+            "legendFormat": "Service Status"
+          }
+        ]
+      }
+    ]
+  }
+}

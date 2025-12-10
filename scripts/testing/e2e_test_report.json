@@ -1,0 +1,44 @@
+{
+  "total_tests": 15,
+  "passed": 9,
+  "failed": 6,
+  "partial": 0,
+  "success_rate": 60.0,
+  "total_duration": 9.302958965301514,
+  "average_duration": 0.619438632329305,
+  "fastest_test": {
+    "name": "User Login",
+    "duration": 0.0037488937377929688
+  },
+  "slowest_test": {
+    "name": "Health Check - Studio",
+    "duration": 2.3152811527252197
+  },
+  "failed_tests": [
+    {
+      "name": "Health Check - Studio",
+      "error": "Cannot connect to host localhost:3000 ssl:default [The remote computer refused the network connection]"
+    },
+    {
+      "name": "Health Check - Admin",
+      "error": "Cannot connect to host localhost:3001 ssl:default [The remote computer refused the network connection]"
+    },
+    {
+      "name": "User Registration",
+      "error": "HTTP 422: {\"detail\":[{\"type\":\"missing\",\"loc\":[\"body\",\"first_name\"],\"msg\":\"Field required\",\"input\":{\"email\":\"test@vetrai.com\",\"password\":\"TestPassword123!\",\"name\":\"Test User\",\"role\":\"admin\"},\"url\":\"https://errors.pydantic.dev/2.5/v/missing\"},{\"type\":\"missing\",\"loc\":[\"body\",\"last_name\"],\"msg\":\"Field required\",\"input\":{\"email\":\"test@vetrai.com\",\"password\":\"TestPassword123!\",\"name\":\"Test User\",\"role\":\"admin\"},\"url\":\"https://errors.pydantic.dev/2.5/v/missing\"},{\"type\":\"missing\",\"loc\":[\"body\",\"organization_id\"],\"msg\":\"Field required\",\"input\":{\"email\":\"test@vetrai.com\",\"password\":\"TestPassword123!\",\"name\":\"Test User\",\"role\":\"admin\"},\"url\":\"https://errors.pydantic.dev/2.5/v/missing\"}]}"
+    },
+    {
+      "name": "User Login",
+      "error": "HTTP 422: {\"detail\":[{\"type\":\"model_attributes_type\",\"loc\":[\"body\"],\"msg\":\"Input should be a valid dictionary or object to extract fields from\",\"input\":\"username=test%40vetrai.com&password=TestPassword123%21\",\"url\":\"https://errors.pydantic.dev/2.5/v/model_attributes_type\"}]}"
+    },
+    {
+      "name": "Studio Frontend",
+      "error": "Cannot connect to host localhost:3000 ssl:default [The remote computer refused the network connection]"
+    },
+    {
+      "name": "Admin Dashboard",
+      "error": "Cannot connect to host localhost:3001 ssl:default [The remote computer refused the network connection]"
+    }
+  ],
+  "status": "NEEDS_ATTENTION"
+}

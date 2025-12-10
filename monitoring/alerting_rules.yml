@@ -1,0 +1,27 @@
+
+groups:
+  - name: VetrAI Platform Alerts
+    rules:
+      - alert: HighErrorRate
+        expr: rate(vetrai_errors_total[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High error rate detected"
+          
+      - alert: ServiceDown
+        expr: up{job=~"vetrai-.*"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.instance }} is down"
+          
+      - alert: HighLatency
+        expr: histogram_quantile(0.95, vetrai_ai_request_duration_seconds) > 5
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High AI processing latency"

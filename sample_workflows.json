@@ -1,0 +1,68 @@
+{
+  "langflow_sample": {
+    "name": "Hello World Flow",
+    "description": "Simple greeting workflow",
+    "nodes": [
+      {
+        "id": "input",
+        "type": "TextInput",
+        "data": {
+          "label": "Name"
+        }
+      },
+      {
+        "id": "processor",
+        "type": "Template",
+        "data": {
+          "template": "Hello, {input}!"
+        }
+      },
+      {
+        "id": "output",
+        "type": "TextOutput",
+        "data": {
+          "label": "Greeting"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "source": "input",
+        "target": "processor"
+      },
+      {
+        "source": "processor",
+        "target": "output"
+      }
+    ]
+  },
+  "langgraph_sample": {
+    "name": "Simple Agent",
+    "description": "Basic conversational agent",
+    "entry_point": "start",
+    "nodes": [
+      {
+        "name": "start",
+        "type": "simple"
+      },
+      {
+        "name": "chat",
+        "type": "llm"
+      },
+      {
+        "name": "end",
+        "type": "simple"
+      }
+    ],
+    "edges": [
+      {
+        "from": "start",
+        "to": "chat"
+      },
+      {
+        "from": "chat",
+        "to": "end"
+      }
+    ]
+  }
+}

@@ -1,0 +1,120 @@
+
+name: VetrAI Platform CI/CD
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [auth, tenancy, keys, billing, support, themes, notifications, workers]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        cd services/${{ matrix.service }}
+        pip install -r requirements.txt
+        pip install pytest pytest-cov
+    
+    - name: Run tests
+      run: |
+        cd services/${{ matrix.service }}
+        pytest tests/ --cov=app --cov-report=xml
+    
+    - name: Upload coverage
+      uses: codecov/codecov-action@v3
+      with:
+        file: services/${{ matrix.service }}/coverage.xml
+
+  frontend-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [studio, admin]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: frontend/${{ matrix.app }}/package-lock.json
+    
+    - name: Install dependencies
+      run: |
+        cd frontend/${{ matrix.app }}
+        npm ci
+    
+    - name: Run tests
+      run: |
+        cd frontend/${{ matrix.app }}
+        npm run test:ci
+    
+    - name: Build
+      run: |
+        cd frontend/${{ matrix.app }}
+        npm run build
+
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+    
+    - name: Upload Trivy scan results
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+  build-and-deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: [test, frontend-test, security-scan]
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Build Docker images
+      run: |
+        docker-compose -f docker-compose.prod.yml build
+    
+    - name: Deploy to staging
+      run: |
+        # Deploy to staging environment
+        echo "Deploying to staging..."
+    
+    - name: Run E2E tests
+      run: |
+        # Run end-to-end tests
+        echo "Running E2E tests..."
+    
+    - name: Deploy to production
+      if: success()
+      run: |
+        # Deploy to production
+        echo "Deploying to production..."

@@ -1,0 +1,66 @@
+{
+  "slack": {
+    "events": [
+      "user_signup",
+      "ai_workflow_completed",
+      "error_threshold_exceeded"
+    ],
+    "webhook_url": "${SLACK_WEBHOOK_URL}",
+    "message_template": {
+      "text": "VetrAI Alert: {event_type}",
+      "attachments": [
+        {
+          "color": "good",
+          "fields": [
+            {
+              "title": "Event",
+              "value": "{event_type}",
+              "short": true
+            },
+            {
+              "title": "Time",
+              "value": "{timestamp}",
+              "short": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "microsoft_teams": {
+    "events": [
+      "system_health_alert",
+      "security_incident"
+    ],
+    "webhook_url": "${TEAMS_WEBHOOK_URL}",
+    "message_template": {
+      "@type": "MessageCard",
+      "summary": "VetrAI Platform Alert",
+      "sections": [
+        {
+          "activityTitle": "VetrAI Alert",
+          "activitySubtitle": "{event_type}",
+          "facts": [
+            {
+              "name": "Severity",
+              "value": "{severity}"
+            },
+            {
+              "name": "Service",
+              "value": "{service}"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "datadog": {
+    "metrics_endpoint": "https://api.datadoghq.com/api/v1/series",
+    "api_key": "${DATADOG_API_KEY}",
+    "metrics": [
+      "vetrai.users.active",
+      "vetrai.ai.requests.rate",
+      "vetrai.revenue.mrr"
+    ]
+  }
+}
